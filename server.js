@@ -38,20 +38,20 @@ app.get("/favourites", function (request, response) {
       console.log(apiData);
       // Render favourites.ejs uit de views map en geef de opgehaalde data mee
       response.render("favourites", apiData);
-    },
+    }
   );
 });
 
 // Get route voor likes
 app.get("/:id/detail", function (request, response) {
   // Gebruik de request parameter id en haal de juiste persoon uit de WHOIS API op
-  fetchJson("https://fdnd-agency.directus.app/items/f_houses/" + request.params.id).then(
-    (apiData) => {
-      console.log(apiData);
-      // Render detail.ejs uit de views map en geef de opgehaalde data mee
-      response.render("favourites", apiData);
-    },
-  );
+  fetchJson(
+    "https://fdnd-agency.directus.app/items/f_houses/" + request.params.id
+  ).then((apiData) => {
+    console.log(apiData);
+    // Render detail.ejs uit de views map en geef de opgehaalde data mee
+    response.render("favourites", apiData);
+  });
 });
 
 // Stel het poortnummer in waar express op moet gaan luisteren
@@ -62,4 +62,3 @@ app.listen(app.get("port"), function () {
   // Toon een bericht in de console en geef het poortnummer door
   console.log(`Application started on http://localhost:${app.get("port")}`);
 });
-
