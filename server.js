@@ -21,27 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Maak een GET route voor de index
 app.get("/", function (request, response) {
-  // Haal alle personen uit de WHOIS API op
-  fetchJson("https://fdnd.directus.app/items/person").then((apiData) => {
-    apiData.data.forEach((person) => {
-      try {
-        person.custom = JSON.parse(person.custom);
-      } catch (error) {
-        person.custom = {};
-      }
-    });
-
-    // apiData bevat gegevens van alle personen uit alle squads
-    // Je zou dat hier kunnen filteren, sorteren, of zelfs aanpassen, voordat je het doorgeeft aan de view
-    if (request.query.squad) {
-      apiData.data = apiData.data.filter(
-        (person) => person.squad_id == request.query.squad,
-      );
-    }
-
-    // Render index.ejs uit de views map en geef de opgehaalde data mee als variabele, genaamd persons
-    response.render("index", { persons: apiData.data, squads: squadData.data });
-  });
+  response.render("index");
 });
 
 // Maak een POST route voor de index
@@ -51,21 +31,19 @@ app.post("/", function (request, response) {
 });
 
 // Maak een GET route voor een detailpagina met een request parameter id
-app.get("/detail/:id", function (request, response) {
+app.get("/favourites", function (request, response) {
   // Gebruik de request parameter id en haal de juiste persoon uit de WHOIS API op
-  fetchJson("https://fdnd.directus.app/items/person/" + request.params.id).then(
+  fetchJson("https://fdnd-agency.directus.app/items/f_houses/" + request.params.id).then(
     (apiData) => {
-      // Render detail.ejs uit de views map en geef de opgehaalde data mee als variable, genaamd person
-      response.render("detail", {
-        person: apiData.data,
-        squads: squadData.data,
-      });
+      console.log(apiData);
+      // Render favourites.ejs uit de views map en geef de opgehaalde data mee
+      response.render("favourites", apiData);
     },
   );
 });
 
 // Post route voor likes
-app.post("/detail/:id/like", function (request, response) {
+app.post("/:id/detail", function (request, response) {
   // Gebruik de request parameter id en haal de juiste persoon uit de WHOIS API op
   fetchJson("https://fdnd.directus.app/items/person/" + request.params.id).then(
     (apiData) => {
