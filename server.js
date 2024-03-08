@@ -33,7 +33,7 @@ app.post("/", function (request, response) {
 // Maak een GET route voor een detailpagina met een request parameter id
 app.get("/favourites", function (request, response) {
   // Gebruik de request parameter id en haal de juiste persoon uit de WHOIS API op
-  fetchJson("https://fdnd-agency.directus.app/items/f_houses/" + request.params.id).then(
+  fetchJson("https://fdnd-agency.directus.app/items/f_houses/").then(
     (apiData) => {
       console.log(apiData);
       // Render favourites.ejs uit de views map en geef de opgehaalde data mee
@@ -42,34 +42,14 @@ app.get("/favourites", function (request, response) {
   );
 });
 
-// Post route voor likes
-app.post("/:id/detail", function (request, response) {
+// Get route voor likes
+app.get("/:id/detail", function (request, response) {
   // Gebruik de request parameter id en haal de juiste persoon uit de WHOIS API op
-  fetchJson("https://fdnd.directus.app/items/person/" + request.params.id).then(
+  fetchJson("https://fdnd-agency.directus.app/items/f_houses/" + request.params.id).then(
     (apiData) => {
-      try {
-        apiData.data.custom = JSON.parse(apiData.data.custom);
-      } catch (error) {
-        apiData.data.custom = {};
-      }
-
-      if (apiData.data.custom.fmlikes) {
-        apiData.data.custom.fmlikes = apiData.data.custom.fmlikes + 1;
-      } else {
-        apiData.data.custom.fmlikes = 1;
-      }
-
-      fetchJson("https://fdnd.directus.app/items/person/" + request.params.id, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify({
-          custom: JSON.stringify(apiData.data.custom),
-        }),
-      }).then(() => {
-        response.redirect(303, "/");
-      });
+      console.log(apiData);
+      // Render detail.ejs uit de views map en geef de opgehaalde data mee
+      response.render("favourites", apiData);
     },
   );
 });
