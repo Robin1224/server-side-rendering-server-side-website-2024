@@ -14,6 +14,7 @@ Funda Opgeslagen Huizen - Serverside rendering
 
 ## Beschrijving
 De opgeslagen huizen pagina van Funda. Gebruikt Node, EJS en Directus om een database van opgeslagen huizen aan een gebruiker te kunnen tonen.
+
 ![image](https://github.com/Robin1224/server-side-rendering-server-side-website-2024/assets/81151231/4fbd8f27-906a-4b67-aa84-da03da9ff970)
 De website is gehost via cyclic.sh:
 https://exuberant-pig-parka.cyclic.app/favorieten
@@ -29,6 +30,8 @@ Gebruikte technologieën:
 * EJS
 * Directus
 * Cyclic
+
+De server logica staat in `server.js`. Dit rendert een pagina uit de `/views` directory, en deze gebruiken components uit `/view/partials`
 
 ## Installatie
 1. Clone de repo naar je eigen werkomgeving
